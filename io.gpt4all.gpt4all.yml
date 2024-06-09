@@ -142,9 +142,11 @@ modules:
 
   - name: gpt4all
     subdir: gpt4all-chat
+    builddir: true
     config-opts:
       - -DKOMPUTE_OPT_USE_BUILT_IN_VULKAN_HEADER=OFF
       - -DKOMPUTE_OPT_USE_BUILT_IN_FMT=OFF
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     build-options:
       arch:
         x86_64:
@@ -154,9 +156,9 @@ modules:
             - -DLLMODEL_CUDA=OFF
     buildsystem: cmake-ninja
     post-install:
-      - install -Dm644 icons/logo.svg /app/share/icons/hicolor/scalable/apps/io.gpt4all.gpt4all.svg
-      - install -Dm644 flatpak-manifest/io.gpt4all.gpt4all.desktop /app/share/applications/io.gpt4all.gpt4all.desktop
-      - install -Dm644 flatpak-manifest/io.gpt4all.gpt4all.appdata.xml /app/share/appdata/io.gpt4all.gpt4all.appdata.xml
+      - install -Dm644 ../icons/logo.svg /app/share/icons/hicolor/scalable/apps/io.gpt4all.gpt4all.svg
+      - install -Dm644 ../flatpak-manifest/io.gpt4all.gpt4all.desktop /app/share/applications/io.gpt4all.gpt4all.desktop
+      - install -Dm644 ../flatpak-manifest/io.gpt4all.gpt4all.appdata.xml /app/share/appdata/io.gpt4all.gpt4all.appdata.xml
     sources:
       - type: git
         url: https://github.com/nomic-ai/gpt4all.git

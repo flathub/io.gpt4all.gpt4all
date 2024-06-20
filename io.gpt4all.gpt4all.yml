@@ -146,7 +146,7 @@ modules:
     config-opts:
       - -DKOMPUTE_OPT_USE_BUILT_IN_VULKAN_HEADER=OFF
       - -DKOMPUTE_OPT_USE_BUILT_IN_FMT=OFF
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_BUILD_TYPE=Release
     build-options:
       arch:
         x86_64:

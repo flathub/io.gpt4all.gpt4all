@@ -25,11 +25,11 @@ modules:
     post-install:
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so  /app/lib/
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6  /app/lib/
-      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.7.0  /app/lib/
+      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.7.2  /app/lib/
     sources:
       - type: archive
-        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.7.0/qthttpserver-v6.7.0.zip
-        sha256: c08adb2b01ff8ce74af842d79ea981db4729e8f26d8d101fbe4af4df60a0d9f9
+        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.7.2/qthttpserver-v6.7.2.zip
+        sha256: 418949499b8f6df0d965062d7c4e4141686164f002630592462b32ee8eaf76fa
 
   - name: python-html5lib
     buildsystem: simple
@@ -146,7 +146,7 @@ modules:
     config-opts:
       - -DKOMPUTE_OPT_USE_BUILT_IN_VULKAN_HEADER=OFF
       - -DKOMPUTE_OPT_USE_BUILT_IN_FMT=OFF
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_BUILD_TYPE=Release
     build-options:
       arch:
         x86_64:

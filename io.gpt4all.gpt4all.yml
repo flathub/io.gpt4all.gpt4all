@@ -170,3 +170,5 @@ modules:
         dest: gpt4all-chat/resources/
       - type: patch
         path: patches/0001-embedding-model-path.patch
+      - type: patch
+        path: patches/0002-appdata-version.patch

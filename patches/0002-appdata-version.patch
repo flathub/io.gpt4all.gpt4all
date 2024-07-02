@@ -1,0 +1,13 @@
+diff --git a/gpt4all-chat/flatpak-manifest/io.gpt4all.gpt4all.appdata.xml b/gpt4all-chat/flatpak-manifest/io.gpt4all.gpt4all.appdata.xml
+index ce413195..7a7ac795 100644
+--- a/gpt4all-chat/flatpak-manifest/io.gpt4all.gpt4all.appdata.xml
++++ b/gpt4all-chat/flatpak-manifest/io.gpt4all.gpt4all.appdata.xml
+@@ -30,7 +30,7 @@
+     <url type="bugtracker">https://github.com/nomic-ai/gpt4all/issues</url>
+     <url type="vcs-browser">https://github.com/nomic-ai/gpt4all</url>
+     <releases>
+-      <release version="2.7.5" date="2024-05-03"></release>              
++      <release version="3.0.0" date="2024-07-02"></release>              
+     </releases>
+     <launchable type="desktop-id">io.gpt4all.gpt4all.desktop</launchable>
+     <content_rating type="oars-1.1">

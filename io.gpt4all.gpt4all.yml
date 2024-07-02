@@ -156,11 +156,17 @@ modules:
             - -DLLMODEL_CUDA=OFF
     buildsystem: cmake-ninja
     post-install:
-      - install -Dm644 ../icons/logo.svg /app/share/icons/hicolor/scalable/apps/io.gpt4all.gpt4all.svg
+      - install -Dm644 ../icons/gpt4all.svg /app/share/icons/hicolor/scalable/apps/io.gpt4all.gpt4all.svg
       - install -Dm644 ../flatpak-manifest/io.gpt4all.gpt4all.desktop /app/share/applications/io.gpt4all.gpt4all.desktop
       - install -Dm644 ../flatpak-manifest/io.gpt4all.gpt4all.appdata.xml /app/share/appdata/io.gpt4all.gpt4all.appdata.xml
     sources:
       - type: git
         url: https://github.com/nomic-ai/gpt4all.git
-        tag: v2.8.0
-        commit: 09dd3dc31871118f9b3593e57b914016da0a0028
+        tag: v3.0.0
+        commit: 4c26726f3e27dcf9b6e47faecd7bc005d0d918e2
+      - type: file
+        url: https://gpt4all.io/models/gguf/nomic-embed-text-v1.5.f16.gguf
+        md5: a5401e7f7e46ed9fcaed5b60a281d547
+        dest: gpt4all-chat/resources/
+      - type: patch
+        path: patches/0001-embedding-model-path.patch

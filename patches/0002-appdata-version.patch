@@ -7,7 +7,7 @@ index ce413195..7a7ac795 100644
      <url type="vcs-browser">https://github.com/nomic-ai/gpt4all</url>
      <releases>
 -      <release version="2.7.5" date="2024-05-03"></release>              
-+      <release version="3.0.0" date="2024-07-02"></release>              
++      <release version="3.1.0" date="2024-07-02"></release>              
      </releases>
      <launchable type="desktop-id">io.gpt4all.gpt4all.desktop</launchable>
      <content_rating type="oars-1.1">

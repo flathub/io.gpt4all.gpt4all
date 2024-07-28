@@ -164,6 +164,9 @@ modules:
         url: https://github.com/nomic-ai/gpt4all.git
         tag: v3.1.0
         commit: 03d460c7321bddea25df6988713f01c447d9e0b5
+        x-checker-data:
+            type: git
+            tag-pattern: ^v([\d.]+)$
       - type: file
         url: https://gpt4all.io/models/gguf/nomic-embed-text-v1.5.f16.gguf
         md5: a5401e7f7e46ed9fcaed5b60a281d547

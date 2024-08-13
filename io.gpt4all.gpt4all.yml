@@ -34,84 +34,84 @@ modules:
   - name: python-html5lib
     buildsystem: simple
     build-commands:
-    - 'pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST} "html5lib" --no-build-isolation'
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
+        --prefix=${FLATPAK_DEST} "html5lib" --no-build-isolation
     sources:
       - type: file
         url: https://files.pythonhosted.org/packages/f4/24/2a3e3df732393fed8b3ebf2ec078f05546de641fe1b667ee316ec1dcf3b7/webencodings-0.5.1-py2.py3-none-any.whl
         sha256: a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78
         x-checker-data:
-            type: pypi
-            name: webencodings
-            packagetype: bdist_wheel
+          type: pypi
+          name: webencodings
+          packagetype: bdist_wheel
       - type: file
         url: https://files.pythonhosted.org/packages/6c/dd/a834df6482147d48e225a49515aabc28974ad5a4ca3215c18a882565b028/html5lib-1.1-py2.py3-none-any.whl
         sha256: 0d78f8fde1c230e99fe37986a60526d7049ed4bf8a9fadbad5f00e22e58e041d
         x-checker-data:
-            type: pypi
-            name: html5lib
-            packagetype: bdist_wheel
+          type: pypi
+          name: html5lib
+          packagetype: bdist_wheel
     cleanup:
-    - '*'
-  
+      - '*'
   - name: volk
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
-    - -DVOLK_INSTALL=ON
+      - -DVOLK_INSTALL=ON
     sources:
-    - type: archive
-      url: https://github.com/zeux/volk/archive/refs/tags/vulkan-sdk-1.3.280.0.zip
-      sha256: 178875134d36e8b90f7e3ec31171355df3b71f47eba49cca2f98158e6552b011
+      - type: archive
+        url: https://github.com/zeux/volk/archive/refs/tags/vulkan-sdk-1.3.280.0.zip
+        sha256: 178875134d36e8b90f7e3ec31171355df3b71f47eba49cca2f98158e6552b011
 
   - name: vulkan-headers
     buildsystem: cmake-ninja
     builddir: true
     sources:
-    - type: archive
-      url: https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v1.3.283.zip
-      sha256: 2094159c87fb4b6d8f734bd4cad59564cef7ef32feb00cf6d8ca7e75a84df921   
+      - type: archive
+        url: https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v1.3.283.zip
+        sha256: 2094159c87fb4b6d8f734bd4cad59564cef7ef32feb00cf6d8ca7e75a84df921
 
   - name: vulkan-tools
     buildsystem: cmake-ninja
     builddir: true
     sources:
-    - type: archive
-      url: https://github.com/KhronosGroup/Vulkan-Tools/archive/refs/tags/v1.3.283.zip
-      sha256: 11ec6b474e91dc8cb6e7f22891294ede549bb6ed67c19d230e293b3fc9610883
+      - type: archive
+        url: https://github.com/KhronosGroup/Vulkan-Tools/archive/refs/tags/v1.3.283.zip
+        sha256: 11ec6b474e91dc8cb6e7f22891294ede549bb6ed67c19d230e293b3fc9610883
 
 
   - name: shaderc
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
-     - -DSHADERC_SKIP_COPYRIGHT_CHECK=ON
-     - -DSHADERC_SKIP_EXAMPLES=ON
-     - -DSHADERC_SKIP_TESTS=ON
-     - -DSPIRV_SKIP_EXECUTABLES=ON
-     - -DENABLE_GLSLANG_BINARIES=OFF
+      - -DSHADERC_SKIP_COPYRIGHT_CHECK=ON
+      - -DSHADERC_SKIP_EXAMPLES=ON
+      - -DSHADERC_SKIP_TESTS=ON
+      - -DSPIRV_SKIP_EXECUTABLES=ON
+      - -DENABLE_GLSLANG_BINARIES=OFF
     cleanup:
-     - /bin
-     - /include
-     - /lib/cmake
-     - /lib/pkgconfig
+      - /bin
+      - /include
+      - /lib/cmake
+      - /lib/pkgconfig
     sources:
-    - type: git
-      url: https://github.com/google/shaderc.git
-      tag: v2024.1
-      commit: 47a9387ef5b3600d30d84c71ec77a59dc7db46fa
+      - type: git
+        url: https://github.com/google/shaderc.git
+        tag: v2024.1
+        commit: 47a9387ef5b3600d30d84c71ec77a59dc7db46fa
       # https://github.com/google/shaderc/blob/known-good/known_good.json
-    - type: git
-      url: https://github.com/KhronosGroup/SPIRV-Tools.git
-      commit: dd4b663e13c07fea4fbb3f70c1c91c86731099f7
-      dest: third_party/spirv-tools
-    - type: git
-      url: https://github.com/KhronosGroup/SPIRV-Headers.git
-      commit: 5e3ad389ee56fca27c9705d093ae5387ce404df4
-      dest: third_party/spirv-headers
-    - type: git
-      url: https://github.com/KhronosGroup/glslang.git
-      commit: 142052fa30f9eca191aa9dcf65359fcaed09eeec
-      dest: third_party/glslang   
+      - type: git
+        url: https://github.com/KhronosGroup/SPIRV-Tools.git
+        commit: dd4b663e13c07fea4fbb3f70c1c91c86731099f7
+        dest: third_party/spirv-tools
+      - type: git
+        url: https://github.com/KhronosGroup/SPIRV-Headers.git
+        commit: 5e3ad389ee56fca27c9705d093ae5387ce404df4
+        dest: third_party/spirv-headers
+      - type: git
+        url: https://github.com/KhronosGroup/glslang.git
+        commit: 142052fa30f9eca191aa9dcf65359fcaed09eeec
+        dest: third_party/glslang
 
   - name: fmt
     buildsystem: cmake-ninja
@@ -125,7 +125,7 @@ modules:
     only-arches:
       - x86_64
     cleanup:
-      - '/cuda'
+      - /cuda
     buildsystem: simple
     build-commands:
       - mkdir /app/cuda
@@ -162,11 +162,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/nomic-ai/gpt4all.git
-        tag: v3.1.1
-        commit: 4bbd0360a012c6ec603df7f1a732bc54fcc7b8ab
+        tag: v3.2.0
+        commit: 3e0ad62fcbb0bb9ca0172dc1c3ca30eba3f03cba
         x-checker-data:
-            type: git
-            tag-pattern: ^v([\d.]+)$
+          type: git
+          tag-pattern: ^v([\d.]+)$
       - type: file
         url: https://gpt4all.io/models/gguf/nomic-embed-text-v1.5.f16.gguf
         md5: a5401e7f7e46ed9fcaed5b60a281d547

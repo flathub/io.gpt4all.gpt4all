@@ -1,8 +1,8 @@
 diff --git a/gpt4all-chat/CMakeLists.txt b/gpt4all-chat/CMakeLists.txt
-index 3b8983f0..b46ef501 100644
+index e19b1c4e..efbf1a19 100644
 --- a/gpt4all-chat/CMakeLists.txt
 +++ b/gpt4all-chat/CMakeLists.txt
-@@ -93,7 +93,7 @@ endif()
+@@ -94,7 +94,7 @@ endif()
  # Embedding model
  set(LOCAL_EMBEDDING_MODEL "nomic-embed-text-v1.5.f16.gguf")
  set(LOCAL_EMBEDDING_MODEL_MD5 "a5401e7f7e46ed9fcaed5b60a281d547")
@@ -11,12 +11,3 @@ index 3b8983f0..b46ef501 100644
  set(LOCAL_EMBEDDING_MODEL_URL "https://gpt4all.io/models/gguf/${LOCAL_EMBEDDING_MODEL}")
  message(STATUS "Downloading embedding model from ${LOCAL_EMBEDDING_MODEL_URL} ...")
  file(DOWNLOAD
-@@ -372,7 +372,7 @@ if (LLMODEL_CUDA)
- endif()
- 
- if (NOT APPLE)
--    install(FILES "${CMAKE_BINARY_DIR}/resources/${LOCAL_EMBEDDING_MODEL}"
-+    install(FILES "${LOCAL_EMBEDDING_MODEL_PATH}"
-             DESTINATION resources
-             COMPONENT ${COMPONENT_NAME_MAIN})
- endif()

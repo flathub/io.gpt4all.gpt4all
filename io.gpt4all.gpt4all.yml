@@ -25,11 +25,11 @@ modules:
     post-install:
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so  /app/lib/
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6  /app/lib/
-      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.7.2  /app/lib/
+      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.7.3  /app/lib/
     sources:
       - type: archive
-        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.7.2/qthttpserver-v6.7.2.zip
-        sha256: 418949499b8f6df0d965062d7c4e4141686164f002630592462b32ee8eaf76fa
+        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.7.3/qthttpserver-v6.7.3.zip
+        sha256: 66a6a6221c4a15a40d153cd0d09c9b37c2b9611be29a9780d4a778097bde325f
 
   - name: python-html5lib
     buildsystem: simple

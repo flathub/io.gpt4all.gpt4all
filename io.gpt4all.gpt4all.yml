@@ -162,8 +162,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/nomic-ai/gpt4all.git
-        tag: v3.4.2
-        commit: b4ad461d868b3d0c6832a7c9864df0e6df52e720
+        tag: v3.5.0
+        commit: f7440c29560717753e2e854774b39ff750ce16b2
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$

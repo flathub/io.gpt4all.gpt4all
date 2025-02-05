@@ -1,9 +1,9 @@
 app-id: io.gpt4all.gpt4all
 runtime: org.kde.Platform
-runtime-version: '6.7'
+runtime-version: '6.8'
 sdk: org.kde.Sdk
 base: io.qt.qtwebengine.BaseApp
-base-version: '6.7'
+base-version: '6.8'
 cleanup-commands:
   - /app/cleanup-BaseApp.sh
 finish-args:
@@ -25,11 +25,14 @@ modules:
     post-install:
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so  /app/lib/
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6  /app/lib/
-      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.7.3  /app/lib/
+      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.8.1  /app/lib/
     sources:
       - type: archive
-        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.7.3/qthttpserver-v6.7.3.zip
-        sha256: 66a6a6221c4a15a40d153cd0d09c9b37c2b9611be29a9780d4a778097bde325f
+        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.8.1/qthttpserver-v6.8.1.zip
+        sha256: b663cd6a948e4d1f83d58e443bf30e5fd8da545f98de92cb151384c4f9b165fc
+        x-checker-data:
+          type: git
+          tag-pattern: ^([\d.]+)$
 
   - name: python-html5lib
     buildsystem: simple

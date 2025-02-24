@@ -150,7 +150,7 @@ modules:
       - -DKOMPUTE_OPT_USE_BUILT_IN_VULKAN_HEADER=OFF
       - -DKOMPUTE_OPT_USE_BUILT_IN_FMT=OFF
       - -DCMAKE_BUILD_TYPE=Release
-      - -DGPT4ALL_TEST=OFF    
+      - -DGPT4ALL_TEST=OFF
     build-options:
       arch:
         x86_64:
@@ -166,8 +166,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/nomic-ai/gpt4all.git
-        tag: v3.9.0
-        commit: be6347389e18e7efd3242a697bc4f8be524fce76
+        tag: v3.10.0
+        commit: 228d5379cfb54e966449e153082c74c66b27c6c9
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$

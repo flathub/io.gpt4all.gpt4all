@@ -6,7 +6,7 @@ index 268933c7..6b7ada3e 100644
      <url type="bugtracker">https://github.com/nomic-ai/gpt4all/issues</url>
      <url type="vcs-browser">https://github.com/nomic-ai/gpt4all</url>
      <releases>
-+      <release version="3.9.0" date="2025-02-05"/>
++      <release version="3.10.0" date="2025-02-25"/>
        <release version="3.1.0" date="2024-07-24"/>
        <release version="3.0.0" date="2024-07-02"/>
        <release version="2.7.5" date="2024-05-03"/>

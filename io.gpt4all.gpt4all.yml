@@ -146,7 +146,7 @@ modules:
           - x86_64
         url: https://developer.download.nvidia.com/compute/cuda/13.1.0/local_installers/cuda_13.1.0_590.44.01_linux.run
         dest-filename: cuda_toolkit.run
-        md5: 0ab912ad3ad00a6ea176431cb4d63318
+        sha256: 6b4fdf2694b3d7afbc526f26412b4cf4f050b202324455053307310f53b323a7
 
   - name: gpt4all
     subdir: gpt4all-chat

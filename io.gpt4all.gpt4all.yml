@@ -1,9 +1,9 @@
 app-id: io.gpt4all.gpt4all
 runtime: org.kde.Platform
-runtime-version: '6.8'
+runtime-version: '6.9'
 sdk: org.kde.Sdk
 base: io.qt.qtwebengine.BaseApp
-base-version: '6.8'
+base-version: '6.9'
 cleanup-commands:
   - /app/cleanup-BaseApp.sh
 finish-args:
@@ -25,11 +25,11 @@ modules:
     post-install:
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so  /app/lib/
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6  /app/lib/
-      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.8.3  /app/lib/
+      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.9.3 /app/lib/
     sources:
       - type: archive
-        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.8.3/qthttpserver-v6.8.3.zip
-        sha256: 6511710dd6b81708d2039628899b67bcafe0eaf87b56558396623d522f7896c9
+        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.9.3/qthttpserver-v6.9.3.zip
+        sha256: 00a86e2a17075b2c33c56a586abafb22cf3eb57489721d3bdb5db971e64d2408
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
@@ -54,6 +54,9 @@ modules:
           type: pypi
           name: html5lib
           packagetype: bdist_wheel
+      - type: file
+        url: https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl
+        sha256: 4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274
     cleanup:
       - '*'
   - name: volk
@@ -100,20 +103,20 @@ modules:
     sources:
       - type: git
         url: https://github.com/google/shaderc.git
-        tag: v2024.1
-        commit: 47a9387ef5b3600d30d84c71ec77a59dc7db46fa
+        tag: v2025.5
+        commit: c4b0af6c3664cd8b33ffddf452514e02a173b4d6
       # https://github.com/google/shaderc/blob/known-good/known_good.json
       - type: git
         url: https://github.com/KhronosGroup/SPIRV-Tools.git
-        commit: dd4b663e13c07fea4fbb3f70c1c91c86731099f7
+        commit: 262bdab48146c937467f826699a40da0fdfc0f1a
         dest: third_party/spirv-tools
       - type: git
         url: https://github.com/KhronosGroup/SPIRV-Headers.git
-        commit: 5e3ad389ee56fca27c9705d093ae5387ce404df4
+        commit: b824a462d4256d720bebb40e78b9eb8f78bbb305
         dest: third_party/spirv-headers
       - type: git
         url: https://github.com/KhronosGroup/glslang.git
-        commit: 142052fa30f9eca191aa9dcf65359fcaed09eeec
+        commit: 7a47e2531cb334982b2a2dd8513dca0a3de4373d
         dest: third_party/glslang
 
   - name: fmt
@@ -131,17 +134,19 @@ modules:
       - /cuda
     buildsystem: simple
     build-commands:
+      - ln -s /usr/lib/libxml2.so /app/lib/libxml2.so.2
       - mkdir /app/cuda
-      - sh cuda_toolkit.run --silent --toolkit --toolkitpath=/app/cuda
+      - chmod +x ./cuda_toolkit.run
+      - ./cuda_toolkit.run --silent --toolkit --toolkitpath=/app/cuda --no-opengl-libs --no-man-page --no-drm --tmpdir=$FLATPAK_BUILDER_BUILDDIR
       - mv /app/cuda/lib64/libcudart.* /app/lib/
       - mv /app/cuda/lib64/libcublas* /app/lib/
     sources:
       - type: file
         only-arches:
           - x86_64
-        url: https://developer.download.nvidia.com/compute/cuda/12.8.0/local_installers/cuda_12.8.0_570.86.10_linux.run
+        url: https://developer.download.nvidia.com/compute/cuda/13.1.0/local_installers/cuda_13.1.0_590.44.01_linux.run
         dest-filename: cuda_toolkit.run
-        md5: c71027cf1a4ce84f80b9cbf81116e767
+        sha256: 6b4fdf2694b3d7afbc526f26412b4cf4f050b202324455053307310f53b323a7
 
   - name: gpt4all
     subdir: gpt4all-chat
@@ -151,10 +156,16 @@ modules:
       - -DKOMPUTE_OPT_USE_BUILT_IN_FMT=OFF
       - -DCMAKE_BUILD_TYPE=Release
       - -DGPT4ALL_TEST=OFF
+      - -DCMAKE_CXX_STANDARD=17
+      - -DCMAKE_CXX_STANDARD_REQUIRED=ON
     build-options:
       arch:
         x86_64:
           append-path: /app/cuda/bin
+          config-opts: 
+            - -DCMAKE_CUDA_STANDARD=17
+            - -DCMAKE_CUDA_STANDARD_REQUIRED=ON
+            - -DCMAKE_CUDA_ARCHITECTURES=all-major
         aarch64:
           config-opts:
             - -DLLMODEL_CUDA=OFF
@@ -173,7 +184,7 @@ modules:
           tag-pattern: ^v([\d.]+)$
       - type: file
         url: https://gpt4all.io/models/gguf/nomic-embed-text-v1.5.f16.gguf
-        md5: a5401e7f7e46ed9fcaed5b60a281d547
+        sha256: f7af6f66802f4df86eda10fe9bbcfc75c39562bed48ef6ace719a251cf1c2fdb
         dest: gpt4all-chat/resources/
       - type: patch
         path: patches/0001-embedding-model-path.patch

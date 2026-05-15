@@ -1,11 +1,10 @@
 app-id: io.gpt4all.gpt4all
 runtime: org.kde.Platform
-runtime-version: '6.9'
+runtime-version: '6.10'
 sdk: org.kde.Sdk
 base: io.qt.qtwebengine.BaseApp
-base-version: '6.9'
-cleanup-commands:
-  - /app/cleanup-BaseApp.sh
+base-version: '6.10'
+command: chat
 finish-args:
   - --share=ipc
   - --socket=wayland
@@ -13,10 +12,11 @@ finish-args:
   - --share=network
   - --device=dri
   - --filesystem=xdg-documents:ro
-command: chat
 cleanup:
   - /include
   - '*.a'
+cleanup-commands:
+  - /app/cleanup-BaseApp.sh
 
 modules:
   - name: qthttpserver
@@ -84,48 +84,6 @@ modules:
       - type: archive
         url: https://github.com/KhronosGroup/Vulkan-Tools/archive/refs/tags/v1.3.283.zip
         sha256: 11ec6b474e91dc8cb6e7f22891294ede549bb6ed67c19d230e293b3fc9610883
-
-
-  - name: shaderc
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DSHADERC_SKIP_COPYRIGHT_CHECK=ON
-      - -DSHADERC_SKIP_EXAMPLES=ON
-      - -DSHADERC_SKIP_TESTS=ON
-      - -DSPIRV_SKIP_EXECUTABLES=ON
-      - -DENABLE_GLSLANG_BINARIES=OFF
-    cleanup:
-      - /bin
-      - /include
-      - /lib/cmake
-      - /lib/pkgconfig
-    sources:
-      - type: git
-        url: https://github.com/google/shaderc.git
-        tag: v2025.5
-        commit: c4b0af6c3664cd8b33ffddf452514e02a173b4d6
-      # https://github.com/google/shaderc/blob/known-good/known_good.json
-      - type: git
-        url: https://github.com/KhronosGroup/SPIRV-Tools.git
-        commit: 262bdab48146c937467f826699a40da0fdfc0f1a
-        dest: third_party/spirv-tools
-      - type: git
-        url: https://github.com/KhronosGroup/SPIRV-Headers.git
-        commit: b824a462d4256d720bebb40e78b9eb8f78bbb305
-        dest: third_party/spirv-headers
-      - type: git
-        url: https://github.com/KhronosGroup/glslang.git
-        commit: 7a47e2531cb334982b2a2dd8513dca0a3de4373d
-        dest: third_party/glslang
-
-  - name: fmt
-    buildsystem: cmake-ninja
-    builddir: true
-    sources:
-      - type: archive
-        url: https://github.com/fmtlib/fmt/releases/download/10.2.1/fmt-10.2.1.zip
-        sha256: 312151a2d13c8327f5c9c586ac6cf7cddc1658e8f53edae0ec56509c8fa516c9
 
   - name: cuda-toolkit
     only-arches:

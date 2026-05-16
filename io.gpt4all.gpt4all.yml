@@ -27,26 +27,23 @@ modules:
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6  /app/lib/
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.9.3 /app/lib/
     sources:
-      - type: archive
-        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.9.3/qthttpserver-v6.9.3.zip
-        sha256: 00a86e2a17075b2c33c56a586abafb22cf3eb57489721d3bdb5db971e64d2408
+      - type: git
+        url: https://invent.kde.org/qt/qt/qthttpserver.git
+        tag: v6.11.1
+        commit: c80d6aa0d09e937ffd1380148f73918d4f9a92b6
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
 
-  - name: python-html5lib
+  # Generated with flatpak-pip-generator html5lib --yaml --checker
+  - name: python3-html5lib
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
         --prefix=${FLATPAK_DEST} "html5lib" --no-build-isolation
+    cleanup:
+      - '*'
     sources:
-      - type: file
-        url: https://files.pythonhosted.org/packages/f4/24/2a3e3df732393fed8b3ebf2ec078f05546de641fe1b667ee316ec1dcf3b7/webencodings-0.5.1-py2.py3-none-any.whl
-        sha256: a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78
-        x-checker-data:
-          type: pypi
-          name: webencodings
-          packagetype: bdist_wheel
       - type: file
         url: https://files.pythonhosted.org/packages/6c/dd/a834df6482147d48e225a49515aabc28974ad5a4ca3215c18a882565b028/html5lib-1.1-py2.py3-none-any.whl
         sha256: 0d78f8fde1c230e99fe37986a60526d7049ed4bf8a9fadbad5f00e22e58e041d
@@ -57,8 +54,18 @@ modules:
       - type: file
         url: https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl
         sha256: 4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274
-    cleanup:
-      - '*'
+        x-checker-data:
+          type: pypi
+          name: six
+          packagetype: bdist_wheel
+      - type: file
+        url: https://files.pythonhosted.org/packages/f4/24/2a3e3df732393fed8b3ebf2ec078f05546de641fe1b667ee316ec1dcf3b7/webencodings-0.5.1-py2.py3-none-any.whl
+        sha256: a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78
+        x-checker-data:
+          type: pypi
+          name: webencodings
+          packagetype: bdist_wheel
+
   - name: volk
     buildsystem: cmake-ninja
     builddir: true
@@ -95,7 +102,8 @@ modules:
       - ln -s /usr/lib/libxml2.so /app/lib/libxml2.so.2
       - mkdir /app/cuda
       - chmod +x ./cuda_toolkit.run
-      - ./cuda_toolkit.run --silent --toolkit --toolkitpath=/app/cuda --no-opengl-libs --no-man-page --no-drm --tmpdir=$FLATPAK_BUILDER_BUILDDIR
+      - ./cuda_toolkit.run --silent --toolkit --toolkitpath=/app/cuda --no-opengl-libs
+        --no-man-page --no-drm --tmpdir=$FLATPAK_BUILDER_BUILDDIR
       - mv /app/cuda/lib64/libcudart.* /app/lib/
       - mv /app/cuda/lib64/libcublas* /app/lib/
     sources:
@@ -120,7 +128,7 @@ modules:
       arch:
         x86_64:
           append-path: /app/cuda/bin
-          config-opts: 
+          config-opts:
             - -DCMAKE_CUDA_STANDARD=17
             - -DCMAKE_CUDA_STANDARD_REQUIRED=ON
             - -DCMAKE_CUDA_ARCHITECTURES=all-major

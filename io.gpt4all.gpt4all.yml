@@ -41,8 +41,8 @@ modules:
         --prefix=${FLATPAK_DEST} "html5lib" --no-build-isolation
     sources:
       - type: file
-        url: https://files.pythonhosted.org/packages/f4/24/2a3e3df732393fed8b3ebf2ec078f05546de641fe1b667ee316ec1dcf3b7/webencodings-0.5.1-py2.py3-none-any.whl
-        sha256: a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78
+        url: https://files.pythonhosted.org/packages/77/c6/040cbc72480d789a5f40d63fb484d3106554c4dfa2d2b70ad5022057750f/webencodings-0.6.1-py3-none-any.whl
+        sha256: 7fab6269c8bf237c657876b52058ccb182e861518d1c695c1a9aaa8c1c105d5b
         x-checker-data:
           type: pypi
           name: webencodings
@@ -137,7 +137,8 @@ modules:
       - ln -s /usr/lib/libxml2.so /app/lib/libxml2.so.2
       - mkdir /app/cuda
       - chmod +x ./cuda_toolkit.run
-      - ./cuda_toolkit.run --silent --toolkit --toolkitpath=/app/cuda --no-opengl-libs --no-man-page --no-drm --tmpdir=$FLATPAK_BUILDER_BUILDDIR
+      - ./cuda_toolkit.run --silent --toolkit --toolkitpath=/app/cuda --no-opengl-libs
+        --no-man-page --no-drm --tmpdir=$FLATPAK_BUILDER_BUILDDIR
       - mv /app/cuda/lib64/libcudart.* /app/lib/
       - mv /app/cuda/lib64/libcublas* /app/lib/
     sources:
@@ -162,7 +163,7 @@ modules:
       arch:
         x86_64:
           append-path: /app/cuda/bin
-          config-opts: 
+          config-opts:
             - -DCMAKE_CUDA_STANDARD=17
             - -DCMAKE_CUDA_STANDARD_REQUIRED=ON
             - -DCMAKE_CUDA_ARCHITECTURES=all-major

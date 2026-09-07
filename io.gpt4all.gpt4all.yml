@@ -158,6 +158,9 @@ modules:
       - -DGPT4ALL_TEST=OFF
       - -DCMAKE_CXX_STANDARD=17
       - -DCMAKE_CXX_STANDARD_REQUIRED=ON
+      # GCC 15 (freedesktop 25.08) defaults to C23, which rejects the K&R-style
+      # `extern long int strtol();` declarations in kompute's bundled xxd.c.
+      - -DCMAKE_C_STANDARD=17
     build-options:
       arch:
         x86_64:

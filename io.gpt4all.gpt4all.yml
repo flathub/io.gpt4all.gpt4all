@@ -140,6 +140,10 @@ modules:
       - mkdir /app/cuda
       - chmod +x ./cuda_toolkit.run
       - ./cuda_toolkit.run --silent --toolkit --toolkitpath=/app/cuda --no-opengl-libs --no-man-page --no-drm --tmpdir=$FLATPAK_BUILDER_BUILDDIR
+      # glibc 2.42 (freedesktop 25.08) declares rsqrt/rsqrtf noexcept; CUDA 13.1's
+      # crt/math_functions.h does not, and cudafe++ rejects the mismatch.
+      - sed -i -e 's/rsqrt(double x);/rsqrt(double x) noexcept(true);/' -e 's/rsqrtf(float x);/rsqrtf(float x) noexcept(true);/' -e 's/__func__(double rsqrt(double a));/__func__(double rsqrt(double a) noexcept(true));/' -e 's/__func__(float rsqrtf(float a));/__func__(float rsqrtf(float a) noexcept(true));/' /app/cuda/targets/x86_64-linux/include/crt/math_functions.h
+      - test "$(grep -c 'rsqrtf\?(.*noexcept(true)' /app/cuda/targets/x86_64-linux/include/crt/math_functions.h)" = 4
       - mv /app/cuda/lib64/libcudart.* /app/lib/
       - mv /app/cuda/lib64/libcublas* /app/lib/
     sources:

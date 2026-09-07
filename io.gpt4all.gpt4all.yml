@@ -134,7 +134,9 @@ modules:
       - /cuda
     buildsystem: simple
     build-commands:
-      - ln -s /usr/lib/libxml2.so /app/lib/libxml2.so.2
+      # freedesktop 25.08 ships libxml2 2.14 (soname .16) with no unversioned
+      # /usr/lib/libxml2.so; NVIDIA's cuda-installer still wants libxml2.so.2.
+      - ln -s /usr/lib/${FLATPAK_ARCH}-linux-gnu/libxml2.so.16 /app/lib/libxml2.so.2
       - mkdir /app/cuda
       - chmod +x ./cuda_toolkit.run
       - ./cuda_toolkit.run --silent --toolkit --toolkitpath=/app/cuda --no-opengl-libs --no-man-page --no-drm --tmpdir=$FLATPAK_BUILDER_BUILDDIR

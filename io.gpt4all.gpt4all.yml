@@ -1,9 +1,9 @@
 app-id: io.gpt4all.gpt4all
 runtime: org.kde.Platform
-runtime-version: '6.9'
+runtime-version: '6.10'
 sdk: org.kde.Sdk
 base: io.qt.qtwebengine.BaseApp
-base-version: '6.9'
+base-version: '6.10'
 cleanup-commands:
   - /app/cleanup-BaseApp.sh
 finish-args:
@@ -25,11 +25,11 @@ modules:
     post-install:
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so  /app/lib/
       - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6  /app/lib/
-      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.9.3 /app/lib/
+      - ln -s ${FLATPAK_ARCH}-linux-gnu/libQt6HttpServer.so.6.10.3 /app/lib/
     sources:
       - type: archive
-        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.9.3/qthttpserver-v6.9.3.zip
-        sha256: 00a86e2a17075b2c33c56a586abafb22cf3eb57489721d3bdb5db971e64d2408
+        url: https://invent.kde.org/qt/qt/qthttpserver/-/archive/v6.10.3/qthttpserver-v6.10.3.zip
+        sha256: 2f7573e8ee0b47ff7c2c0e691f7b041a0b8b17c5343ef018ea9457937af490bc
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
@@ -134,10 +134,16 @@ modules:
       - /cuda
     buildsystem: simple
     build-commands:
-      - ln -s /usr/lib/libxml2.so /app/lib/libxml2.so.2
+      # freedesktop 25.08 ships libxml2 2.14 (soname .16) with no unversioned
+      # /usr/lib/libxml2.so; NVIDIA's cuda-installer still wants libxml2.so.2.
+      - ln -s /usr/lib/${FLATPAK_ARCH}-linux-gnu/libxml2.so.16 /app/lib/libxml2.so.2
       - mkdir /app/cuda
       - chmod +x ./cuda_toolkit.run
       - ./cuda_toolkit.run --silent --toolkit --toolkitpath=/app/cuda --no-opengl-libs --no-man-page --no-drm --tmpdir=$FLATPAK_BUILDER_BUILDDIR
+      # glibc 2.42 (freedesktop 25.08) declares rsqrt/rsqrtf noexcept; CUDA 13.1's
+      # crt/math_functions.h does not, and cudafe++ rejects the mismatch.
+      - sed -i -e 's/rsqrt(double x);/rsqrt(double x) noexcept(true);/' -e 's/rsqrtf(float x);/rsqrtf(float x) noexcept(true);/' -e 's/__func__(double rsqrt(double a));/__func__(double rsqrt(double a) noexcept(true));/' -e 's/__func__(float rsqrtf(float a));/__func__(float rsqrtf(float a) noexcept(true));/' /app/cuda/targets/x86_64-linux/include/crt/math_functions.h
+      - test "$(grep -c 'rsqrtf\?(.*noexcept(true)' /app/cuda/targets/x86_64-linux/include/crt/math_functions.h)" = 4
       - mv /app/cuda/lib64/libcudart.* /app/lib/
       - mv /app/cuda/lib64/libcublas* /app/lib/
     sources:
@@ -158,6 +164,9 @@ modules:
       - -DGPT4ALL_TEST=OFF
       - -DCMAKE_CXX_STANDARD=17
       - -DCMAKE_CXX_STANDARD_REQUIRED=ON
+      # GCC 15 (freedesktop 25.08) defaults to C23, which rejects the K&R-style
+      # `extern long int strtol();` declarations in kompute's bundled xxd.c.
+      - -DCMAKE_C_STANDARD=17
     build-options:
       arch:
         x86_64:
